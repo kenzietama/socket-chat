@@ -31,6 +31,13 @@
 #include <time.h>
 #include <unistd.h>
 
+#ifndef NI_MAXHOST
+#define NI_MAXHOST 1025
+#endif
+#ifndef NI_MAXSERV
+#define NI_MAXSERV 32
+#endif
+
 #define BACKLOG 16
 #define RECV_BUF 4096
 #define OUT_BUF  (RECV_BUF + 128) // space for prefix
@@ -232,4 +239,5 @@ int main(int argc, char **argv) {
     }
 
     return 0;
+
 }
