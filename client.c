@@ -28,6 +28,13 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+#ifndef NI_MAXHOST
+#define NI_MAXHOST 1025
+#endif
+#ifndef NI_MAXSERV
+#define NI_MAXSERV 32
+#endif
+
 #define LINE_BUF 4096
 #define RECV_BUF 4096
 
@@ -159,4 +166,5 @@ int main(int argc, char **argv) {
 
     if (g_sockfd >= 0) close(g_sockfd);
     return 0;
+
 }
