@@ -41,7 +41,14 @@ void send_recv(int i, fd_set *master, int sockfd, int fdmax, struct client_info 
     {
         if (nbytes_recvd == 0)
         {
-            printf("socket %d hung up\n", i);
+            // Find client's IP and port for disconnection message
+            for (j = 0; j < client_count; j++) {
+                if (clients[j].sockfd == i) {
+                    printf("socket %d (%s:%d) hung up\n", 
+                           i, inet_ntoa(clients[j].addr.sin_addr), ntohs(clients[j].addr.sin_port));
+                    break;
+                }
+            }
         }
         else
         {
@@ -110,7 +117,9 @@ void connection_accept(fd_set *master, int *fdmax, int sockfd, struct sockaddr_i
         if (send(newsockfd, welcome_msg, strlen(welcome_msg), 0) == -1) {
             perror("send");
         }
-        printf("new connection from %s on port %d \n", inet_ntoa(client_addr->sin_addr), ntohs(client_addr->sin_port));
+        // Print socket descriptor, IP, and port
+        printf("new connection from %s on port %d (socket descriptor: %d)\n", 
+               inet_ntoa(client_addr->sin_addr), ntohs(client_addr->sin_port), newsockfd);
     }
 }
 
